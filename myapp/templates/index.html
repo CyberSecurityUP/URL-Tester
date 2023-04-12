@@ -1,0 +1,43 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h2>URLs e seus status codes</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Adicionar URL</button>
+  </form>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ upload_form.as_p }}
+    <button type="submit">Upload de arquivo</button>
+  </form>
+  <table>
+    <thead>
+      <tr>
+        <th>URL</th>
+        <th>Status Code</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for url in urls %}
+        <tr>
+          <td>{{ url.url }}</td>
+          <td>{{ url.status_code }}</td>
+        </tr>
+      {% endfor %}
+      {% for url in urls %}
+        <tr>
+    	   <td>{{ url.url }}</td>
+    	   <td>{{ url.status_code }}</td>
+        <td>
+          <form action="{% url 'delete_url' url.id %}" method="POST" style="display: inline;">
+             {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Excluir</button>
+           </form>
+        </td>
+        </tr>
+{% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
